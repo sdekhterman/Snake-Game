@@ -51,7 +51,7 @@ void draw()
         {
             // Draw left and right borders
             if (j == 0 || j == width)
-                cout << "|";
+                cout << "#";
             // Draw snake head
             else if (i == y && j == x)
                 cout << "O";
@@ -86,7 +86,7 @@ void draw()
         if (i == 0 || i == width)
             cout << "#";
         else
-            cout << "-";
+            cout << "#";
     }
     cout << endl;
 
@@ -167,8 +167,10 @@ void logic()
         break;
     case LEFT:
         x--;
+        x--;
         break;
     case RIGHT:
+        x++;
         x++;
         break;
     default:
@@ -188,6 +190,19 @@ void logic()
         {
             gameover = true;
         }
+
+        if((dir == LEFT)){
+        if ((x+1) == tailx[i] && y == foody)
+        {
+            gameover = true;
+        }
+    } 
+    if((dir == RIGHT)){
+        if ((x-1) == tailx[i] && y == foody)
+        {
+            gameover = true;
+        }
+    } 
     }
 
     // Check for collision with food and update score
@@ -198,6 +213,24 @@ void logic()
         foody = rand() % height;
         ntail++;
     }
+    if((dir == LEFT)){
+        if ((x+1) == foodx && y == foody)
+        {
+            score += 10;
+            foodx = rand() % width;
+            foody = rand() % height;
+            ntail++;
+        }
+    } 
+    if((dir == RIGHT)){
+        if ((x-1) == foodx && y == foody)
+        {
+            score += 10;
+            foodx = rand() % width;
+            foody = rand() % height;
+            ntail++;
+        }
+    } 
 }
 
 int main()
