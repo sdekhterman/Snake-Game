@@ -5,7 +5,7 @@ using namespace std;
 
 bool gameover;
 const int height = 20;
-const int width = 60;
+const int width = 40;
 
 int x, y, foodx, foody, score;
 
@@ -20,8 +20,8 @@ void setup()
     gameover = false;
     x = width / 2;
     y = height / 2;
-    foodx = rand() % width;
-    foody = rand() % height;
+    foodx = (rand() % (width /2))*2;
+    foody = (rand() % (height/2))*2;
     score = 0;
 }
 
@@ -40,7 +40,7 @@ void draw()
         if (i == 0 || i == width)
             cout << "#";
         else
-            cout << "-";
+            cout << "#";
     }
     cout << endl;
 
@@ -209,16 +209,16 @@ void logic()
     if (x == foodx && y == foody)
     {
         score += 10;
-        foodx = rand() % width;
-        foody = rand() % height;
+        foodx = (rand() % (width /2))*2;
+        foody = (rand() % (height/2))*2;
         ntail++;
     }
     if((dir == LEFT)){
         if ((x+1) == foodx && y == foody)
         {
             score += 10;
-            foodx = rand() % width;
-            foody = rand() % height;
+            foodx = (rand() % (width /2))*2;
+            foody = (rand() % (height/2))*2;
             ntail++;
         }
     } 
@@ -226,8 +226,8 @@ void logic()
         if ((x-1) == foodx && y == foody)
         {
             score += 10;
-            foodx = rand() % width;
-            foody = rand() % height;
+            foodx = (rand() % (width /2))*2;
+            foody = (rand() % (height/2))*2;
             ntail++;
         }
     } 
