@@ -13,6 +13,11 @@ Welcome to the classic Snake Game implementation in C++! This simple console-bas
 
 1. **Clone the repository** to your local machine.
 2. **Compile the code** using a C++ compiler.
+```
+g++ -o output main.cpp
+./output.exe
+```
+
 3. **Execute the compiled executable** to start the game.
 4. Use arrow keys (up, down, left, right) to control the snake.
     - Up Arrow: Move Up
