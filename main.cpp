@@ -104,7 +104,7 @@ void draw()
     cout << endl;
 
     // Display the score
-    cout << "Score : " << score << endl;
+    cout << "Score: " << score << endl;
 }
 
 // Function to handle player input
