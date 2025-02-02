@@ -21,15 +21,27 @@ void setup()
     gameover = false;
     x = width / 2;
     y = height / 2;
-    foodx = (rand() % (width /2))*2;
-    foody = (rand() % (height/2))*2;
+
+    // TODO: make sure it doesn't spawn on the boarders
+    do {
+        foodx = (rand() % (width /2))*2;
+    } while ((foodx) == 0 || (foodx == width));
+
+
+    do {
+        foody = (rand() % (height /2))*2;
+    } while ((foody == 0) || (foody == height));
+    cout << "x = " << foodx << ", y = " << foody; 
+
     score = 0;
+
+    system("CLS"); // send out a clear screen command to the virtial terminal to not have the previous commands appear outside the boarder of the play area
 }
+// TODO: only have the changes chars update
 
 // Function to draw the game screen
 void draw()
 {
-    //system("CLS");
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0});
     CONSOLE_CURSOR_INFO info;
     info.dwSize = 100;
@@ -55,7 +67,7 @@ void draw()
                 cout << "#";
             // Draw snake head
             else if (i == y && j == x)
-                cout << "O";
+                cout << "0";
             // Draw food
             else if (i == foody && j == foodx)
                 cout << "*";
@@ -67,7 +79,7 @@ void draw()
                 {
                     if (i == taily[k] && j == tailx[k])
                     {
-                        cout << "&";
+                        cout << "o";
                         print = true;
                     }
 
@@ -152,10 +164,9 @@ void logic()
         taily[i] = taily[i - 1];
     }
 
-// Move the head to the new position
+    // Move the head to the new position
     tailx[0] = x;
     taily[0] = y;
-
 
     // Move the head based on the direction
     switch (dir)
@@ -167,16 +178,16 @@ void logic()
         y++;
         break;
     case LEFT:
-        x--;
-        x--;
+        x-=2;
         break;
     case RIGHT:
-        x++;
-        x++;
+        x+=2;
         break;
     default:
         break;
     }
+
+    // TODO: combine these checks for gameover
 
     // Check for collisions with the borders
     if (x < 0 || x > width || y < 0 || y > height)
@@ -192,34 +203,44 @@ void logic()
             gameover = true;
         }
 
+        // TODO: need collision checks for up and down
         if((dir == LEFT)){
-        if ((x+1) == tailx[i] && y == foody)
-        {
-            gameover = true;
-        }
-    } 
-    if((dir == RIGHT)){
-        if ((x-1) == tailx[i] && y == foody)
-        {
-            gameover = true;
-        }
-    } 
+            if ((x+1) == tailx[i] && y == foody)
+            {
+                gameover = true;
+            }
+        } 
+        if((dir == RIGHT)){
+            if ((x-1) == tailx[i] && y == foody)
+            {
+                gameover = true;
+            }
+        } 
     }
 
     // Check for collision with food and update score
     if (x == foodx && y == foody)
     {
+        // TODO: turn the food spawn, tail extension, and score increment into a function
         score += 10;
-        foodx = (rand() % (width /2))*2;
-        foody = (rand() % (height/2))*2;
+        do {
+            foodx = (rand() % (width /2))*2;
+        } while ((foodx) == 0 || (foodx == width));
+        do {
+            foody = (rand() % (height /2))*2;
+        } while ((foody == 0) || (foody == height));
         ntail++;
     }
     if((dir == LEFT)){
         if ((x+1) == foodx && y == foody)
         {
             score += 10;
-            foodx = (rand() % (width /2))*2;
-            foody = (rand() % (height/2))*2;
+            do {
+                foodx = (rand() % (width /2))*2;
+            } while ((foodx) == 0 || (foodx == width));
+            do {
+                foody = (rand() % (height /2))*2;
+            } while ((foody == 0) || (foody == height));
             ntail++;
         }
     } 
@@ -227,8 +248,12 @@ void logic()
         if ((x-1) == foodx && y == foody)
         {
             score += 10;
-            foodx = (rand() % (width /2))*2;
-            foody = (rand() % (height/2))*2;
+            do {
+                foodx = (rand() % (width /2))*2;
+            } while ((foodx) == 0 || (foodx == width));
+            do {
+                foody = (rand() % (height /2))*2;
+            } while ((foody == 0) || (foody == height));
             ntail++;
         }
     } 
@@ -238,9 +263,6 @@ int main()
 {
 
     cout << "Use arrow keys to move the snake." << endl;
-    cout << "Press 1 to play in difficult mode,press 2 to play in easy mode." << endl;
-    int mode;
-    cin >> mode;
 
     setup(); // Initialize the game
 
@@ -249,7 +271,7 @@ int main()
         draw();
         input();
         logic();
-        Sleep((mode == 1) ? 30 : 100); // Adjust sleep duration based on mode
+        Sleep(100); // Adjust sleep duration based on mode
     }
 
     cout << "GAME OVER" << endl;
