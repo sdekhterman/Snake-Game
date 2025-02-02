@@ -16,7 +16,8 @@ int tailx[100], taily[100], ntail;
 
 // Function to initialize the game state
 void setup()
-{
+{  
+    srand(time(NULL)); // used to set the food spawn location at run time instead of compile time (so the food spawn changes every game)
     gameover = false;
     x = width / 2;
     y = height / 2;
