@@ -5,7 +5,7 @@ using namespace std;
 
 bool gameover;
 const int height = 20;
-const int width = 40;
+const int width  = 40;
 
 int x, y, foodx, foody, score;
 
@@ -51,9 +51,9 @@ void draw()
     for (int i = 0; i <= width; i++)
     {
         if (i == 0 || i == width)
-            cout << "#";
+            cout << ".";
         else
-            cout << "#";
+            cout << "-";
     }
     cout << endl;
 
@@ -64,7 +64,7 @@ void draw()
         {
             // Draw left and right borders
             if (j == 0 || j == width)
-                cout << "#";
+                cout << "|";
             // Draw snake head
             else if (i == y && j == x)
                 cout << "0";
@@ -97,9 +97,9 @@ void draw()
     for (int i = 0; i <= width; i++)
     {
         if (i == 0 || i == width)
-            cout << "#";
+            cout << ".";
         else
-            cout << "#";
+            cout << "-";
     }
     cout << endl;
 
@@ -153,10 +153,20 @@ void input()
     }
 }
 
+void fruitObtained() {
+    score += 10;
+    do {
+        foodx = (rand() % (width /2))*2;
+    } while ((foodx) == 0 || (foodx == width));
+    do {
+        foody = (rand() % (height /2))*2;
+    } while ((foody == 0) || (foody == height));
+    ntail++;
+}
+
 // Function to update game logic
 void logic()
 {
-
     // Update tail positions
     for (int i = ntail - 1; i > 0; --i)
     {
@@ -171,26 +181,20 @@ void logic()
     // Move the head based on the direction
     switch (dir)
     {
-    case UP:
-        y--;
-        break;
-    case DOWN:
-        y++;
-        break;
-    case LEFT:
-        x-=2;
-        break;
-    case RIGHT:
-        x+=2;
-        break;
-    default:
-        break;
+        case UP:
+            y--;  break;
+        case DOWN:
+            y++;  break;
+        case LEFT:
+            x-=2; break;
+        case RIGHT:
+            x+=2; break;
+        default:
+            break;
     }
 
-    // TODO: combine these checks for gameover
-
     // Check for collisions with the borders
-    if (x < 0 || x > width || y < 0 || y > height)
+    if (x <= 0 || x >= width || y < 0 || y > height)
     {
         gameover = true;
     }
@@ -198,65 +202,19 @@ void logic()
     // Check for collisions with the tail
     for (int i = 0; i < ntail; i++)
     {
-        if (x == tailx[i] && y == taily[i])
-        {
-            gameover = true;
+        if (y == taily[i]){
+            if ((x == tailx[i]) || ((dir == LEFT) && ((x+1) == tailx[i])) || ((dir == RIGHT) && ((x-1) == tailx[i]))) {
+                gameover = true;
+            }
         }
-
-        // TODO: need collision checks for up and down
-        if((dir == LEFT)){
-            if ((x+1) == tailx[i] && y == foody)
-            {
-                gameover = true;
-            }
-        } 
-        if((dir == RIGHT)){
-            if ((x-1) == tailx[i] && y == foody)
-            {
-                gameover = true;
-            }
-        } 
     }
 
     // Check for collision with food and update score
-    if (x == foodx && y == foody)
-    {
-        // TODO: turn the food spawn, tail extension, and score increment into a function
-        score += 10;
-        do {
-            foodx = (rand() % (width /2))*2;
-        } while ((foodx) == 0 || (foodx == width));
-        do {
-            foody = (rand() % (height /2))*2;
-        } while ((foody == 0) || (foody == height));
-        ntail++;
+    if (y == foody){
+        if ((x == foodx) || ((dir == LEFT) && ((x+1) == foodx)) || ((dir == RIGHT) && ((x-1) == foodx))) {
+            fruitObtained();
+        }
     }
-    if((dir == LEFT)){
-        if ((x+1) == foodx && y == foody)
-        {
-            score += 10;
-            do {
-                foodx = (rand() % (width /2))*2;
-            } while ((foodx) == 0 || (foodx == width));
-            do {
-                foody = (rand() % (height /2))*2;
-            } while ((foody == 0) || (foody == height));
-            ntail++;
-        }
-    } 
-    if((dir == RIGHT)){
-        if ((x-1) == foodx && y == foody)
-        {
-            score += 10;
-            do {
-                foodx = (rand() % (width /2))*2;
-            } while ((foodx) == 0 || (foodx == width));
-            do {
-                foody = (rand() % (height /2))*2;
-            } while ((foody == 0) || (foody == height));
-            ntail++;
-        }
-    } 
 }
 
 int main()
@@ -271,12 +229,10 @@ int main()
         draw();
         input();
         logic();
-        Sleep(100); // Adjust sleep duration based on mode
+        Sleep(120); // Adjust sleep duration based on mode
     }
 
     cout << "GAME OVER" << endl;
 
     return 0;
 }
-
-
