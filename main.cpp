@@ -220,16 +220,13 @@ void logic()
 
 int main()
 {
-
-    cout << "Use arrow keys to move the snake." << endl;
-
     setup(); // Initialize the game
-
+    
     while (!gameover)
     {
-        draw();
         input();
         logic();
+        draw();
         Sleep(120); // Adjust sleep duration based on mode
     }
 
