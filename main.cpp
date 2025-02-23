@@ -72,13 +72,6 @@ void update() {
 void setup()
 {  
     srand(time(NULL)); // Used to set the food spawn location at run time instead of compile time (so the food spawn changes every game)
-<<<<<<< Updated upstream
-    update();
-    system("CLS"); // Send out a clear screen command to the virtial terminal to not have the previous commands appear outside the boarder of the play area
-}
-
-// Function to handle player input
-=======
     update();          // Set the score and tail length to 0
     system("CLS");     // Send out a clear screen command to the virtial terminal to not have the previous commands appear outside the boarder of the play area
 }
@@ -130,9 +123,7 @@ void input()
     }
 }
 
-<<<<<<< Updated upstream
-// Function to update game logic
-=======
+
 // Function to update game player position and check if they collided with food, their tail of a wall
 >>>>>>> Stashed changes
 void logic()
