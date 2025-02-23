@@ -3,38 +3,41 @@
 #include<conio.h>
 using namespace std;
 
-bool gameover;
-const int height = 20;
-const int width  = 40;
 
-int x, y, foodx, foody, score;
+const int height         = 20;
+const int width          = 2*height;
+const int scoreIncrement = 10;
+
+int ntail      = -1;
+int foodx      = 1;
+int foody      = 1;
+int tailx[100] = {};
+int taily[100] = {};
+bool gameover  = false;
 
 enum edirection { STOP = 0, UP, DOWN, LEFT, RIGHT };
 edirection dir;
 
-int tailx[100], taily[100], ntail;
+int x     = width  / 2;
+int y     = height / 2;
+int score = -scoreIncrement;
+
+void update() {
+    score += 10;
+    do {
+        foodx = (rand() % (width /2))*2;
+    } while ((foodx) == 0 || (foodx == width));
+    do {
+        foody = (rand() % (height));
+    } while ((foody == 0) || (foody == height));
+    ntail++;
+}
 
 // Function to initialize the game state
 void setup()
 {  
     srand(time(NULL)); // used to set the food spawn location at run time instead of compile time (so the food spawn changes every game)
-    gameover = false;
-    x = width / 2;
-    y = height / 2;
-
-    // TODO: make sure it doesn't spawn on the boarders
-    do {
-        foodx = (rand() % (width /2))*2;
-    } while ((foodx) == 0 || (foodx == width));
-
-
-    do {
-        foody = (rand() % (height /2))*2;
-    } while ((foody == 0) || (foody == height));
-    cout << "x = " << foodx << ", y = " << foody; 
-
-    score = 0;
-
+    update();
     system("CLS"); // send out a clear screen command to the virtial terminal to not have the previous commands appear outside the boarder of the play area
 }
 // TODO: only have the changes chars update
@@ -42,11 +45,19 @@ void setup()
 // Function to draw the game screen
 void draw()
 {
+    // Get a handler for the consoles and set the cursor position in a fixed location 
+    // So, the game is redraws over the same place. 
+    // Otherwise, new drawings will be made  every refresh at new terminal lines and the drawings 'char' continunuty will not be maintained.
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0});
+    
+    // Set the cursur to be invisable. 
+    // Yes you need both arguements, with dwSize (1-100 [percent, DWORD = unsigned long = 32-bit unsigned integer]) being the height of the curson 
+    // and bVisible (BOOL) setting the cursor to disapear as it changes each char in the specified area. 
     CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100;
+    info.dwSize = 1;
     info.bVisible = false;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+
     // Draw top border
     for (int i = 0; i <= width; i++)
     {
@@ -83,7 +94,7 @@ void draw()
                         print = true;
                     }
 
-                    // Draw empty space if no snake or food
+                // Draw empty space if no snake or food
                 }
                 if(!print)
                     cout << " ";
@@ -153,16 +164,6 @@ void input()
     }
 }
 
-void fruitObtained() {
-    score += 10;
-    do {
-        foodx = (rand() % (width /2))*2;
-    } while ((foodx) == 0 || (foodx == width));
-    do {
-        foody = (rand() % (height /2))*2;
-    } while ((foody == 0) || (foody == height));
-    ntail++;
-}
 
 // Function to update game logic
 void logic()
@@ -212,7 +213,7 @@ void logic()
     // Check for collision with food and update score
     if (y == foody){
         if ((x == foodx) || ((dir == LEFT) && ((x+1) == foodx)) || ((dir == RIGHT) && ((x-1) == foodx))) {
-            fruitObtained();
+            update();
         }
     }
 }
