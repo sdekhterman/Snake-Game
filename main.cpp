@@ -18,7 +18,7 @@ const int sleepDuration = 120; // in millisecond
 // used when drawing the game on the console
 const char *fruitChar             =  "*";
 const char *snakeHeadChar         =  "0";
-const char *snakeBodyChar         =  "o";
+const char *snakeTailChar         =  "o";
 const char *horizontalBoarderChar =  "-";
 const char *verticalBoarderChar   =  "|";
 const char *cornerBoarderChar     =  ".";
@@ -26,13 +26,13 @@ const char *scoreText             = "Score: ";
 const char *gameOverText          = "GAME OVER";
 
 // Initialize size of tail, set to -1 since a function will set it to 0 on startup and allows for function reuse, ...
-// a food location, the tail array, and that the game is not over, since it is just starting.
-int ntail      = -1;
-int foodx      =  1;
-int foody      =  1;
-int tailx[100] = {};
-int taily[100] = {};
-bool gameOver  = false;
+// a food location, that the game is not over ... since it is just starting, and the tail array.
+int ntail     = -1;
+int foodx     =  1;
+int foody     =  1;
+bool gameOver = false;
+int tailx[height * width] = {};
+int taily[height * width] = {};
 
 // Setup game functions so main is understood first when reading code
 void update();
@@ -236,7 +236,7 @@ void draw()
                 {
                     if (i == taily[k] && j == tailx[k])
                     {
-                        cout << snakeBodyChar;
+                        cout << snakeTailChar;
                         print = true;
                     }
 
