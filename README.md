@@ -3,9 +3,7 @@
 Welcome to the classic Snake Game implementation in C++! This simple console-based game allows players to control a snake, collect food, and grow longer, all while aiming for the highest score without colliding with borders or the snake's tail.
 
 ## Features
-
 - Responsive arrow key controls.
-- Dynamic difficulty modes (easy and difficult).
 - Score tracking.
 - Game-over screen.
 
@@ -15,26 +13,17 @@ Welcome to the classic Snake Game implementation in C++! This simple console-bas
 2. **Compile the code** using a C++ compiler.
 ```
 g++ -o output main.cpp
+```
+3. **Execute the compiled executable** to start the game.
+```
 ./output.exe
 ```
-
-3. **Execute the compiled executable** to start the game.
 4. Use arrow keys (up, down, left, right) to control the snake.
     - Up Arrow: Move Up
     - Down Arrow: Move Down
     - Left Arrow: Move Left
     - Right Arrow: Move Right
-5. Press `1` for difficult mode or `2` for easy mode.
-   - Difficult Mode: Faster snake movement (30ms delay).
-   - Easy Mode: Slower snake movement (100ms delay).
-6. The game continues until you collide with borders or the snake's tail.
-
-## Screenshots
-
-![Gameplay Screenshot](snakeDemo.jpeg)
-![Game Over Screenshot](snakeDemo2.jpeg)
-![Game Over Screenshot](snakeDemo3.jpeg)
-![Game Over Screenshot](snakeDemo4.jpeg)
+5. The game continues until you collide with borders or the snake's tail.
 
 ## Demo Video
 

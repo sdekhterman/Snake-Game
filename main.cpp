@@ -77,7 +77,6 @@ void setup()
 }
 
 // Function to handle player keyboard input
->>>>>>> Stashed changes
 void input()
 {
     if (_kbhit())
@@ -123,9 +122,7 @@ void input()
     }
 }
 
-
 // Function to update game player position and check if they collided with food, their tail of a wall
->>>>>>> Stashed changes
 void logic()
 {
     // Update tail positions
