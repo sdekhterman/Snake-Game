@@ -1,9 +1,10 @@
-#include<bits/stdc++.h>
-#include<windows.h>
 #include<conio.h>
+#include<windows.h>
+#include<bits/stdc++.h>
+
 using namespace std;
 
-// TODO: add the sleep duration and player/ boarder chars, also check if the var inits should go in main for garbage collectuin reasons
+// TODO: also check if the var inits should go in main for garbage collectuin reasons
 
 // Set the play area height and width, chosen to be square arbirary. 
 // The width is twice the height since chars are about twice as tall as they are wide ...
@@ -12,15 +13,26 @@ using namespace std;
 const int height         = 20;
 const int width          = 2*height;
 const int scoreIncrement = 10;
+const int sleepDuration = 120; // in millisecond
+
+// used when drawing the game on the console
+const char *fruitChar             =  "*";
+const char *snakeHeadChar         =  "0";
+const char *snakeBodyChar         =  "o";
+const char *horizontalBoarderChar =  "-";
+const char *verticalBoarderChar   =  "|";
+const char *cornerBoarderChar     =  ".";
+const char *scoreText             = "Score: ";
+const char *gameOverText          = "GAME OVER";
 
 // Initialize size of tail, set to -1 since a function will set it to 0 on startup and allows for function reuse, ...
 // a food location, the tail array, and that the game is not over, since it is just starting.
 int ntail      = -1;
-int foodx      = 1;
-int foody      = 1;
+int foodx      =  1;
+int foody      =  1;
 int tailx[100] = {};
 int taily[100] = {};
-bool gameover  = false;
+bool gameOver  = false;
 
 // Setup game functions so main is understood first when reading code
 void update();
@@ -43,22 +55,22 @@ int main()
 {
     setup(); // Initialize the game
     
-    while (!gameover)
+    while (!gameOver)
     {
         input();
         logic();
         draw();
-        Sleep(120); // Sleep duration
+        Sleep(sleepDuration); // wait to get inouts and redraw for this length
     }
 
-    cout << "GAME OVER" << endl;
+    cout << gameOverText << endl;
 
     return 0;
 }
 
 // Function to update the score, spawn new food, and increase the tail length number
 void update() {
-    score += 10;
+    score += scoreIncrement;
     do {
         foodx = (rand() % (width /2))*2;
     } while ((foodx) == 0 || (foodx == width));
@@ -154,7 +166,7 @@ void logic()
     // Check for collisions with the borders
     if (x <= 0 || x >= width || y < 0 || y > height)
     {
-        gameover = true;
+        gameOver = true;
     }
 
     // Check for collisions with the tail
@@ -162,7 +174,7 @@ void logic()
     {
         if (y == taily[i]){
             if ((x == tailx[i]) || ((dir == LEFT) && ((x+1) == tailx[i])) || ((dir == RIGHT) && ((x-1) == tailx[i]))) {
-                gameover = true;
+                gameOver = true;
             }
         }
     }
@@ -196,9 +208,9 @@ void draw()
     for (int i = 0; i <= width; i++)
     {
         if (i == 0 || i == width)
-            cout << ".";
+            cout << cornerBoarderChar;
         else
-            cout << "-";
+            cout << horizontalBoarderChar;
     }
     cout << endl;
 
@@ -209,13 +221,13 @@ void draw()
         {
             // Draw left and right borders
             if (j == 0 || j == width)
-                cout << "|";
+                cout << verticalBoarderChar;
             // Draw snake head
             else if (i == y && j == x)
-                cout << "0";
+                cout << snakeHeadChar;
             // Draw food
             else if (i == foody && j == foodx)
-                cout << "*";
+                cout << fruitChar;
             else
             {
                 // Draw tail segments
@@ -224,7 +236,7 @@ void draw()
                 {
                     if (i == taily[k] && j == tailx[k])
                     {
-                        cout << "o";
+                        cout << snakeBodyChar;
                         print = true;
                     }
 
@@ -242,12 +254,12 @@ void draw()
     for (int i = 0; i <= width; i++)
     {
         if (i == 0 || i == width)
-            cout << ".";
+            cout << cornerBoarderChar;
         else
-            cout << "-";
+            cout << horizontalBoarderChar;
     }
     cout << endl;
 
     // Display the score
-    cout << "Score: " << score << endl;
+    cout << scoreText << score << endl;
 }

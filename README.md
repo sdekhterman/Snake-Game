@@ -12,11 +12,11 @@ Welcome to the classic Snake Game implementation in C++! This simple console-bas
 1. **Clone the repository** to your local machine.
 2. **Compile the code** using a C++ compiler.
 ```
-g++ -o output main.cpp
+g++ -o snake_game main.cpp
 ```
 3. **Execute the compiled executable** to start the game.
 ```
-./output.exe
+./snake_game.exe
 ```
 4. Use arrow keys (up, down, left, right) to control the snake.
     - Up Arrow: Move Up
@@ -38,7 +38,7 @@ Check out the gameplay in action on our [YouTube Demo](https://youtu.be/0yA8jrbZ
 
 ### Drawing
 
-- Console-based drawing with snake represented by "O", food by "*", and tail segments by "&".
+- Console-based drawing with snake represented by "0", food by "*", and tail segments by "o".
 - Score displayed at the bottom of the screen.
 
 ### Input
@@ -50,10 +50,5 @@ Check out the gameplay in action on our [YouTube Demo](https://youtu.be/0yA8jrbZ
 - Update snake positions and check for collisions.
 - Tail segments follow the head.
 - Borders, snake's own tail, and food collisions are checked.
-
-### Difficulty Modes
-
-- Two modes: difficult and easy.
-- Sleep duration adjusted based on selected mode.
 
 Enjoy the Game! 🐍
