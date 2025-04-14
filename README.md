@@ -10,7 +10,10 @@ Welcome to the classic Snake Game implementation in C++! This simple console-bas
 ## How to Play
 
 1. **Clone the repository** to your local machine.
-2. **Compile the code** using a C++ compiler.
+```
+git clone https://github.com/sdekhterman/Snake-Game.git
+```
+3. **Compile the code** using a C++ compiler.
 ```
 g++ -o snake_game main.cpp
 ```
